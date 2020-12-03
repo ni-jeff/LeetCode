@@ -12,3 +12,5 @@ class Solution {
 }
 // @lc code=end
 
+// Solutions
+// 分治：取一个数，剩余的问题即为2sum（2sum要求对数组排序），再进行双指针

@@ -24,3 +24,11 @@ class Solution {
     }
 }
 // @lc code=end
+
+/*
+Notes
+	1. Math.abs()方法在int的最小边界时会出现绝对值为负值的情况
+
+Solutions
+同3sum类似，用两头逼近的方法，遍历所有解
+*/

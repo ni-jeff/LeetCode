@@ -19,3 +19,10 @@ class Solution {
 }
 // @lc code=end
 
+/*
+Notes
+	1. 返回值不需返回数组，因为传入参数是引用
+
+Solutions
+    1.双指针
+*/

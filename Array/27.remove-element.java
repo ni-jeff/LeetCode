@@ -22,3 +22,12 @@ class Solution {
 }
 // @lc code=end
 
+/*
+Notes
+	1.  two pointers 循环时考虑是否可以合并循环
+	2. pointer必须标注在想要标注的位置
+
+Solutions
+    1.Two pointers from head and end
+
+*/

@@ -20,3 +20,13 @@ class Solution {
 }
 // @lc code=end
 
+/*
+Notes
+	1. 使用map可以快速地在数组中查找某一个值
+	2. 由于只有一个解，所以往map中置入数据时，就可以开始往前查找是否有解
+
+Solutions
+	1. 暴力
+	2. hashmap匹配
+    3.边hashmap边往前查找
+*/

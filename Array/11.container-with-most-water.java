@@ -22,3 +22,5 @@ class Solution {
 }
 // @lc code=end
 
+// Solutions
+// 两端向中间对比是否有更优解，对比时，取矮的一端去向前（或向后）寻找
