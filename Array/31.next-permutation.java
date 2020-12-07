@@ -1,22 +1,13 @@
-import java.util.*;
 /*
- * @lc app=leetcode id=18 lang=java
+ * @lc app=leetcode id=31 lang=java
  *
- * [18] 4Sum
+ * [31] Next Permutation
  */
+
 // @lc code=start
-public class test{
-    public static void main(String[] args) {
-        Solution solution=new Solution();
-        int nums[]={1};
-        solution.nextPermutation(nums);
-        System.out.println(nums);
-    }
-}
 class Solution {
     public void nextPermutation(int[] nums) {
         int i=nums.length-1;
-        // if(i<1)return;
         while(i>0&&nums[i]<=nums[i-1]){i--;}
         int end=nums.length-1;
         for(int j=end;i>0&&j>=i;j--){
@@ -37,5 +28,10 @@ class Solution {
         nums[j]=temp;
     }
 }
-
 // @lc code=end
+
+/*notes:
+    1.要对不同情况找共同方法，合并精简代码
+solution：
+    1.从后往前根据全排列的方法找到最后固定的一位，调换后对固定位以后的进行反转
+*/
