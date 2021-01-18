@@ -19,23 +19,22 @@ class Solution {
     public void backtrack(int[] nums, List<List<Integer>> List, List<Integer> tempList, int target, int start) {
         if (target == 0) {
             List.add(new ArrayList<>(tempList));
-        }
+        } 
+        else if (target < 0) {
+            return;
+        } 
         else if (target > 0) {
             for (int i = start; i < nums.length; i++) {
-                if (i > start && nums[i] == nums[i - 1]) {
+                if (i > start && nums[i] == nums[i - 1]) {//remove repetive first-num
                     continue;
                 }
                 tempList.add(nums[i]);
-                if (target - nums[i] >= 0) {
-                    backtrack(nums, List, tempList, target - nums[i], i + 1);
-                }
-                else {
-                    return;
-                }
+                backtrack(nums, List, tempList, target - nums[i], i + 1);
                 tempList.remove(tempList.size() - 1);
             }
         }
     }
 }
 // @lc code=end
-
+// solution:1.backtrack
+// notes:1.sometimes, when you try to shorten to time usage by using some if sentence, it causes more time.
