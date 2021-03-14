@@ -8,41 +8,28 @@ import java.util.*;
 public class test{
     public static void main(String[] args) {
         Solution solution=new Solution();
-        int nums[]={2,3,2,2,7};
-        List<List<Integer>> list=new ArrayList<>();
-        list=solution.combinationSum(nums,7);
-        System.out.println(nums);
+        int[][] nums={{1,1}};
+        boolean ans=solution.findNumberIn2DArray(nums,0);
+        System.out.println(ans);
     }
-}
-class Solution {
-    public List<List<Integer>> combinationSum(int[] candidates, int target) {
-        List<List<Integer>> ans=new ArrayList<>();
-        Arrays.sort(candidates);
-        System.out.println(candidates);
-        backtrace(ans, new ArrayList<Integer>(), candidates, target, 0);
-
-        return ans;
-    }
-
-    private void backtrace(List<List<Integer>> List,List<Integer> tempList,int[] nums,int target,int start){
-        if(target<0){
-            return;
+}class Solution {
+    public boolean findNumberIn2DArray(int[][] matrix, int target) {
+        if(matrix.length==0){
+            return false;
         }
-
-        else if(target==0){
-            List.add(new ArrayList<>(tempList));
-        }
-
-        else if(target>0){
-
-            for(int i=start;i<nums.length;i++){
-                tempList.add(nums[i]);
-                backtrace(List, tempList, nums, target-nums[i], start);
-                tempList.remove(tempList.size()-1);
+        int col=matrix[0].length-1;
+        int row=0;
+        while(col>=0&&row<matrix.length){
+            if(matrix[col][row]==target){
+                return true;
             }
-
+            else if(matrix[col][row]>target){
+                col--;
+            }
+            else if(matrix[col][row]<target){
+                row++;
+            }
         }
+        return false;
     }
 }
-
-// @lc code=end
