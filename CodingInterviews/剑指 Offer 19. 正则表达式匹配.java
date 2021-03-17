@@ -1,50 +1,42 @@
-import java.util.*;
-/*
- * @lc app=leetcode id=18 lang=java
- *
- * [18] 4Sum
- */
-// @lc code=start
-public class test{
-    public static void main(String[] args) {
-        Solution solution=new Solution();
-        // int[][] nums = { { 1, 1 } };
-        // String s = "000001";
-        // int num = Integer.parseInt(s);
-        // // int ans=solution.cuttingRope(108);
-        // System.out.println(num);
-        // boolean[][] state = new boolean[3][3];
-        System.out.println(solution.isMatch("cbbb","ca*b*"));
-    }
-}class Solution {
+//solution1 recursion
+class Solution {
     public boolean isMatch(String s, String p) {
-        // corner case
-        if(s == null || p == null) return false;
-
-        int m = s.length();
-        int n = p.length();
-        
+        if(p.isEmpty()){
+            return s.isEmpty();
+        }
+        boolean firstMatch=!s.isEmpty()&&(s.charAt(0)==p.charAt(0)||p.charAt(0)=='.');
+        if(p.length()>=2&&p.charAt(1)=='*'){
+            return isMatch(s,p.substring(2))||(firstMatch&&(isMatch(s.substring(1),p)));
+        }
+        else{
+            return firstMatch&&isMatch(s.substring(1),p.substring(1));
+        }
+    }
+}
+//solution2 dp
+class Solution {
+    public boolean isMatch(String s, String p) {
+        if (s == null || p == null) {
+            return false;
+        }
         // M[i][j] represents if the 1st i characters in s can match the 1st j characters in p
-        boolean[][] M = new boolean[m + 1][n + 1];
-
+        boolean[][] dp = new boolean[s.length() + 1][p.length() + 1];
         // initialization: 
 		// 1. M[0][0] = true, since empty string matches empty pattern
-		M[0][0] = true;
-		
-		// 2. M[i][0] = false(which is default value of the boolean array) since empty pattern cannot match non-empty string
+        dp[0][0] = true;
+        // 2. M[i][0] = false(which is default value of the boolean array) since empty pattern cannot match non-empty string
 		// 3. M[0][j]: what pattern matches empty string ""? It should be #*#*#*#*..., or (#*)* if allow me to represent regex using regex :P, 
 		// and for this case we need to check manually: 
         // as we can see, the length of pattern should be even && the character at the even position should be *, 
 		// thus for odd length, M[0][j] = false which is default. So we can just skip the odd position, i.e. j starts from 2, the interval of j is also 2. 
 		// and notice that the length of repeat sub-pattern #* is only 2, we can just make use of M[0][j - 2] rather than scanning j length each time 
 		// for checking if it matches #*#*#*#*.
-        for(int j = 2; j < n + 1; j++){
-            if(p.charAt(j - 1) == '*' && M[0][j - 2]){
-                M[0][j] = true;
+        for (int j = 2; j < dp[0].length; j += 2) {
+            if (p.charAt(j - 1) == '*' && dp[0][j - 2]) {
+                dp[0][j] = true;
             }
         }
-        
-		// Induction rule is very similar to edit distance, where we also consider from the end. And it is based on what character in the pattern we meet.
+        // Induction rule is very similar to edit distance, where we also consider from the end. And it is based on what character in the pattern we meet.
         // 1. if p.charAt(j) == s.charAt(i), M[i][j] = M[i - 1][j - 1]
 		//    ######a(i)
 		//    ####a(j)
@@ -75,23 +67,20 @@ public class test{
 		// Observation: from above, we can see to get M[i][j], we need to know previous elements in M, i.e. we need to compute them first. 
 		// which determines i goes from 1 to m - 1, j goes from 1 to n + 1
 		
-        for(int i = 1; i < m + 1; i++){
-            for(int j = 1; j < n + 1; j++){
-                char curS = s.charAt(i - 1);
-                char curP = p.charAt(j - 1);
-                if(curS == curP || curP == '.'){
-                    M[i][j] = M[i - 1][j - 1];
-                }else if(curP == '*'){
-                    char preCurP = p.charAt(j - 2);
-                    if(preCurP != '.' && preCurP != curS){
-                        M[i][j] = M[i][j - 2];
-                    }else{
-                        M[i][j] = (M[i][j - 2] || M[i - 1][j - 2] || M[i - 1][j]);
+        for (int i = 1; i < dp.length; i++) {
+            for (int j = 1; j < dp[0].length; j++) {
+                if (s.charAt(i - 1) == p.charAt(j - 1) || p.charAt(j - 1) == '.') {
+                    dp[i][j] = dp[i - 1][j - 1];
+                }
+                if (p.charAt(j - 1) == '*') {
+                    if (s.charAt(i - 1) != p.charAt(j - 2) && p.charAt(j - 2) != '.') {
+                        dp[i][j] = dp[i][j - 2];
+                    } else {
+                        dp[i][j] = dp[i - 1][j] || dp[i][j - 1] || dp[i][j - 2];
                     }
                 }
             }
         }
-        
-        return M[m][n];
+        return dp[s.length()][p.length()];
     }
 }
