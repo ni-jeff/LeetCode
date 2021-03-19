@@ -1,19 +1,6 @@
-import java.util.*;
-/*
- * @lc app=leetcode id=18 lang=java
- *
- * [18] 4Sum
- */
-// @lc code=start
-public class test {
-    public static void main(String[] args) {
-        Solution solution = new Solution();
-        int[][] nums = { {1}, {2}, {3} };
-        System.out.println(solution.spiralOrder(nums));
-    }
-}class Solution {
+class Solution {
     public int[] spiralOrder(int[][] matrix) {
-        if(matrix.length==0){
+        if(matrix==null||matrix.length==0||matrix[0].length==0){
             return (new int[0]);
         }
         int rows=matrix.length;
@@ -23,19 +10,19 @@ public class test {
         int round=0;
         while(i<res.length){
             for(int j=round;j<cols-round;j++){
-                if(i==res.length)return res;
                 res[i]=matrix[round][j];
                 i++;
             }
+            if(i==res.length)return res;
             for(int j=round+1;j<rows-round;j++){
                 res[i]=matrix[j][cols-1-round];
                 i++;
             }
             for(int j=cols-1-round-1;j>=round;j--){
-                if(i==res.length)return res;
                 res[i]=matrix[rows-1-round][j];
                 i++;
             }
+            if(i==res.length)return res;
             for(int j=rows-1-round-1;j>round;j--){
                 res[i]=matrix[j][round];
                 i++;
