@@ -8,40 +8,39 @@ import java.util.*;
 public class test {
     public static void main(String[] args) {
         Solution solution = new Solution();
-        int[][] nums = { {1}, {2}, {3} };
-        System.out.println(solution.spiralOrder(nums));
+        int[] nums = { 4,6,7,5};
+        System.out.println(solution.verifyPostorder(nums));
     }
-}class Solution {
-    public int[] spiralOrder(int[][] matrix) {
-        if(matrix.length==0){
-            return (new int[0]);
+}
+class Node {
+    int val;
+    Node next;
+    Node random;
+
+    public Node(int val) {
+        this.val = val;
+        this.next = null;
+        this.random = null;
+    }
+}
+
+class Solution {
+    public Node copyRandomList(Node head) {
+        if(head==null)return null;
+        List<Node> randomArr=new LinkedList<>();
+        Node ans=new Node(head.val);
+        Node ansHead=ans;
+        randomArr.add(head.random);
+        while(head.next!=null){
+            head=head.next;
+            randomArr.add(head.random);
+            ans.next=head;
+            ans=ans.next;
         }
-        int rows=matrix.length;
-        int cols=matrix[0].length;
-        int[] res=new int[cols*rows];
-        int i=0;
-        int round=0;
-        while(i<res.length){
-            for(int j=round;j<cols-round;j++){
-                if(i==res.length)return res;
-                res[i]=matrix[round][j];
-                i++;
-            }
-            for(int j=round+1;j<rows-round;j++){
-                res[i]=matrix[j][cols-1-round];
-                i++;
-            }
-            for(int j=cols-1-round-1;j>=round;j--){
-                if(i==res.length)return res;
-                res[i]=matrix[rows-1-round][j];
-                i++;
-            }
-            for(int j=rows-1-round-1;j>round;j--){
-                res[i]=matrix[j][round];
-                i++;
-            }
-            round++;
+        ans=ansHead;
+        for(int i=0;i<randomArr.size();i++){
+            ans.random=randomArr.get(i);
         }
-        return res;
+        return ansHead;
     }
 }
