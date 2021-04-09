@@ -8,39 +8,30 @@ import java.util.*;
 public class test {
     public static void main(String[] args) {
         Solution solution = new Solution();
-        int[] nums = { 4,6,7,5};
-        System.out.println(solution.verifyPostorder(nums));
+        int ans = solution.findNthDigit(10);
+        System.out.println((ans));
     }
 }
-class Node {
-    int val;
-    Node next;
-    Node random;
-
-    public Node(int val) {
-        this.val = val;
-        this.next = null;
-        this.random = null;
-    }
-}
-
 class Solution {
-    public Node copyRandomList(Node head) {
-        if(head==null)return null;
-        List<Node> randomArr=new LinkedList<>();
-        Node ans=new Node(head.val);
-        Node ansHead=ans;
-        randomArr.add(head.random);
-        while(head.next!=null){
-            head=head.next;
-            randomArr.add(head.random);
-            ans.next=head;
-            ans=ans.next;
+    public int findNthDigit(int n) {
+        if(n==0){
+            return 0;
         }
-        ans=ansHead;
-        for(int i=0;i<randomArr.size();i++){
-            ans.random=randomArr.get(i);
+        int count=1;
+        int digit=1;
+        int flag=1;
+        while(n>=count){
+            n-=count;
+            count=9*digit*flag;
+            digit*=10;
+            flag++;
         }
-        return ansHead;
+        digit/=10;
+        flag--;
+        int num=n/flag+digit;
+        for(int i=0;i<num%flag;i++){
+            num/=10;
+        }
+        return num%10;
     }
 }
